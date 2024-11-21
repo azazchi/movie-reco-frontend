@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.custom-shadow {
+    @apply shadow-inner; /* Adds inner shadow styling from Tailwind */
+    box-shadow: 
+        inset 1px -50px 50px rgba(0, 0, 0, 0.2), 
+        inset -1px 25px 30px rgba(0, 0, 0, 0.9);
+}

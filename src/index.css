@@ -21,3 +21,7 @@
         inset -1px 25px 30px rgba(0, 0, 0, 0.9);
 }
 
+.custom-bg {
+    background-image: url('img.url');
+    border: solid green;
+}

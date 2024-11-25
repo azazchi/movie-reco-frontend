@@ -1,71 +1,64 @@
-import MovieCard from "../../components/MovieCard";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import MovieCard from "../../components/MovieCard.jsx";
+
+const CategorizeMovies = ({ title, movies }) => {
+    /*
+     *
+     */
+    if (movies)
+        return (
+            <div className="flex flex-col gap-y-5 z-0 p-5">
+                <p className="text-[#FBFF00] text-3xl"> {title} </p>
+
+                <div className="flex justify-between">
+                    {movies.slice(6, 12).map((movie) => (
+                        <MovieCard
+                            title={movie.title}
+                            rating={movie.rating}
+                            id={movie.id}
+                            key={movie.id}
+                        />
+                    ))}
+                </div>
+            </div>
+        );
+    else return <></>;
+};
 
 export default function HomePage() {
-  return (
-    <>
-      
-      <MovieCard />
+    // /movie/popular
+    // /movie/rated
 
-      {/* tailwind body of home page */}
-      <div class="h-full flex flex-col relative bg-[url('src/assets/img/background-pic.jpg')] bg-no-repeat bg-cover bg-fixed z-10">
-        {/* opacity of background picture */}
-        <div class="absolute bg-black inset-0 opacity-80"></div>
-        
-          {/* most popular movie container */}
-          <div class="flex flex-col gap-y-5 z-0 p-5">
+    const [ratedMovies, setRatedMovies] = useState(null);
 
-            <p class="text-[#FBFF00] text-3xl"> Most Popular Movies </p>
+    useEffect(() => {
+        fetchRated("rated", setRatedMovies);
+        console.log(ratedMovies);
+    }, []);
 
-            <div class="flex justify-between">
-
-              <div class="bg-[url('src/assets/img/furiosa.jpg')] bg-no-repeat bg-cover bg-center w-52 h-80"></div>
-              <div class="bg-[url('src/assets/img/ghostbuster.jpg')] bg-no-repeat bg-cover bg-center w-52 h-80"></div>
-              <div class="bg-[url('src/assets/img/hitman.jpg')] bg-no-repeat bg-cover bg-center w-52 h-80"></div>
-              <div class="bg-[url('src/assets/img/ghostlight.jpg')] bg-no-repeat bg-cover bg-center w-52 h-80"></div>
-              <div class="bg-[url('src/assets/img/dune.jpg')] bg-no-repeat bg-cover bg-center w-52 h-80"></div>
-              <div class="bg-[url('src/assets/img/fallguy.jpg')] bg-no-repeat bg-cover bg-center w-52 h-80"></div>
-
-            </div>
-
-          </div>
-
-          {/* top rating movies container */}
-          <div class="flex flex-col gap-y-5 z-0 p-5">
-
-            <p class="text-[#FBFF00] text-3xl"> Top Rating Movies </p>
-
-            <div class="flex justify-between">
-
-              <div class="bg-[url('src/assets/img/furiosa.jpg')] bg-no-repeat bg-cover bg-center w-52 h-80 font-bold text-white custom-shadow">
-                <p class="mt-1 ml-1">⭐ 4.0 </p>
-              </div>
-
-              <div class="bg-[url('src/assets/img/ghostbuster.jpg')] bg-no-repeat bg-cover bg-center w-52 h-80 font-bold text-white custom-shadow">
-                <p class="mt-1 ml-1">⭐ 4.0 </p>
-              </div>
-
-              <div class="bg-[url('src/assets/img/hitman.jpg')] bg-no-repeat bg-cover bg-center w-52 h-80 font-bold text-white custom-shadow">
-                <p class="mt-1 ml-1">⭐ 4.0 </p>
-              </div>
-
-              <div class="bg-[url('src/assets/img/ghostlight.jpg')] bg-no-repeat bg-cover bg-center w-52 h-80 font-bold text-white custom-shadow">
-                <p class="mt-1 ml-1">⭐ 4.0 </p>
-              </div>
-
-              <div class="bg-[url('src/assets/img/dune.jpg')] bg-no-repeat bg-cover bg-center w-52 h-80 font-bold text-white custom-shadow">
-                <p class="mt-1 ml-1">⭐ 4.0 </p>
-              </div>
-
-              <div class="bg-[url('src/assets/img/fallguy.jpg')] bg-no-repeat bg-cover bg-center w-52 h-80 font-bold text-white custom-shadow">
-                <p class="mt-1 ml-1">⭐ 4.0 </p>
-              </div>
-
-            </div>
-
-          </div>
-
-      </div>
-
-    </>
-  );
+    return (
+        <div className="pt-28 p-16">
+            {/*
+                <CategorizeMovies
+                    title={"Most Popular Movies"}
+                    api_route={"popular"}
+                />
+            */}
+            <CategorizeMovies
+                title={"Most Rated Movies"}
+                movies={ratedMovies}
+            />
+        </div>
+    );
 }
+
+const fetchRated = async (route, setter) => {
+    const { data } = await axios.get(`/api/movie/${route}`, {
+        params: { top: 30 },
+    });
+
+    if (data.data) {
+        setter(data.data);
+    } else setter(null);
+};

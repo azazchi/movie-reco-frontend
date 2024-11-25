@@ -38,14 +38,19 @@ export default function MoviePage() {
                         data: res.data.data,
                     });
                     if (img.isLoading) {
-                        fetchMovieImage(res.data.data.title).then(
-                            (response) => {
+                        fetchMovieImage(res.data.data.title)
+                            .then((response) => {
                                 setImg({
                                     isLoading: false,
                                     url: response.data.url,
                                 });
-                            }
-                        );
+                            })
+                            .catch(() => {
+                                setImg({
+                                    isLoading: false,
+                                    url: "https://www.kindpng.com/picc/m/18-189751_movie-placeholder-hd-png-download.png",
+                                });
+                            });
                     }
                 }
             });
@@ -81,7 +86,7 @@ export default function MoviePage() {
                     <strong>Director:</strong> {data.director}
                 </div>
                 <div>
-                    <strong>Genre:</strong> {data.genre}    
+                    <strong>Genre:</strong> {data.genre}
                 </div>
                 <div>
                     <strong>Language:</strong> {data.language}

@@ -2,10 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+.background-image {
+    background-image: url("src/assets/img/background-pic.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.icon-filter {
+    filter: brightness(0) saturate(100%) invert(95%) sepia(0%) saturate(0%)
+        hue-rotate(86deg) brightness(104%) contrast(104%);
+}
 
 .custom-shadow {
     @apply shadow-inner; /* Adds inner shadow styling from Tailwind */
-    box-shadow: 
-        inset 1px -50px 50px rgba(0, 0, 0, 0.2), 
+    box-shadow:
+        inset 1px -50px 50px rgba(0, 0, 0, 0.2),
         inset -1px 25px 30px rgba(0, 0, 0, 0.9);
 }
+

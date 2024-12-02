@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 export default function MovieCard({ title, rating, id }) {
     const [img, setImg] = useState();
 
-    const navigate = useNavigate();
-
     const image_url = async (movie_title) => {
         try {
             const { data } = await axios.get("/movie/image", {
@@ -26,7 +24,7 @@ export default function MovieCard({ title, rating, id }) {
 
     return (
         <div
-            className={`w-52 h-80 font-bold text-white`}
+            className={`w-52 h-80 font-bold text-white hover:cursor-pointer`}
             onClick={() => {
                 window.location.href = "/movie/" + id;
             }}

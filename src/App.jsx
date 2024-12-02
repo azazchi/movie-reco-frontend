@@ -12,10 +12,10 @@ export default function App() {
 
     return (
         <>
-            <div className="absolute bg-black inset-0 opacity-80 -z-10"></div>
+            <div className="fixed bg-black inset-0 opacity-80 -z-10"></div>
             <img
                 src={background_pic}
-                className="absolute -z-20 h-full w-full object-cover"
+                className="fixed -z-20 h-screen w-screen object-cover"
                 alt=""
             />
             <Navbar />

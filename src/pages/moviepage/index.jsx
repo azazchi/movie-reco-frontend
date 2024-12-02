@@ -16,6 +16,33 @@ async function fetchMovieImage(movie_title) {
     return res;
 }
 
+async function handleRateUp(movie_id) {
+    axios.post(
+        `/api/movie`,
+        {},
+        {
+            params: {
+                movie: movie_id,
+                vote: "up",
+            },
+        }
+    );
+    //.then(() => window.location.reload());
+}
+async function handleRateDown(movie_id) {
+    axios.post(
+        `/api/movie`,
+        {},
+        {
+            params: {
+                movie: movie_id,
+                vote: "down",
+            },
+        }
+    );
+    //.then(() => window.location.reload());
+}
+
 export default function MoviePage() {
     const { movie_id } = useParams();
 
@@ -65,22 +92,24 @@ export default function MoviePage() {
 
     return (
         <>
-            {/* tailwind body of home page */}
-            <div className="flex gap-x-5 h-full relative border-t-2 border-white bg-[url('/src/assets/img/background-pic.jpg')] bg-no-repeat bg-cover bg-fixed z-10 px-8 pt-16 pb-4">
-            {/* opacity of background picture */}
-            <div class="absolute bg-black inset-0 opacity-80"></div>
-
+            <div className="flex gap-x-5 h-full relative  bg-no-repeat bg-cover bg-fixed z-10 px-8 pt-28 pb-4">
                 {/* left side */}
                 <div className="flex flex-col gap-y-4 text-white w-[500px] z-0">
-                    <img src={img.url} alt="move image" className="max-w-[500px] h-[635px]" />
+                    <img
+                        src={img.url}
+                        alt="move image"
+                        className="max-w-[500px] h-[635px]"
+                    />
                     <div>
-                        <strong className="text-3xl"> Rating ⭐{data.rating} </strong> 
+                        <strong className="text-3xl">
+                            {" "}
+                            Rating ⭐{data.rating}{" "}
+                        </strong>
                     </div>
                 </div>
 
                 {/* right side */}
                 <div className="text-white flex flex-col gap-y-2 z-0 text-xl">
-
                     {/* Title */}
                     <div>
                         <strong className="text-5xl"> {data.title} </strong>
@@ -98,12 +127,14 @@ export default function MoviePage() {
 
                     {/* cast */}
                     <div className="flex gap-x-3">
-                        <strong>Cast:</strong> <p className="text-[#FBFF00]">{data.cast}</p>
+                        <strong>Cast:</strong>{" "}
+                        <p className="text-[#FBFF00]">{data.cast}</p>
                     </div>
-                    
+
                     {/* director */}
                     <div className="flex gap-x-3">
-                        <strong>Director:</strong> <p className="text-[#FBFF00]">{data.director}</p>
+                        <strong>Director:</strong>{" "}
+                        <p className="text-[#FBFF00]">{data.director}</p>
                     </div>
 
                     {/* budget */}
@@ -113,9 +144,10 @@ export default function MoviePage() {
 
                     {/* revenue/box office */}
                     <div className="flex gap-x-3">
-                        <strong>Revenue:</strong> ${data.revenue.toLocaleString()}
+                        <strong>Revenue:</strong> $
+                        {data.revenue.toLocaleString()}
                     </div>
-                    
+
                     {/* language */}
                     <div>
                         <strong>Language:</strong> {data.language}
@@ -125,7 +157,7 @@ export default function MoviePage() {
                     <div>
                         <strong>Keywords:</strong> {data.keywords}
                     </div>
-                    
+
                     {/* tagline */}
                     <div>
                         <strong>Tagline:</strong> {data.tagline}
@@ -133,12 +165,45 @@ export default function MoviePage() {
 
                     {/* rate button and vote count,up, and down container*/}
                     <div className="flex items-center justify-center gap-x-20 border-t pt-6 border-white">
-
                         {/* rate buttons */}
                         <div className="flex items-center gap-x-5 text-6xl">
                             <strong> Rate </strong>
-                            <button className="duration-200 hover:text-7xl"><i class="fa-regular fa-thumbs-up"></i></button>
-                            <button className="mt-2 duration-200 hover:text-7xl"><i class="fa-regular fa-thumbs-down fa-flip-horizontal"></i></button>
+                            {movie.data.my_vote == -1 ? (
+                                <>
+                                    <button
+                                        onClick={() => handleRateUp(movie_id)}
+                                        className="duration-200 hover:text-7xl"
+                                    >
+                                        <i class="fa-regular fa-thumbs-up"></i>
+                                    </button>
+                                    <button
+                                        onClick={() => handleRateDown(movie_id)}
+                                        className="mt-2 duration-200 hover:text-7xl"
+                                    >
+                                        <i class="fa-regular fa-thumbs-down fa-flip-horizontal"></i>
+                                    </button>
+                                </>
+                            ) : null}
+                            {movie.data.my_vote == "up" ? (
+                                <>
+                                    <div className="duration-200 hove-7xl text-green-500">
+                                        <i class="fa-regular fa-thumbs-up"></i>
+                                    </div>
+                                    <div className="mt-2 duration-200 xl">
+                                        <i class="fa-regular fa-thumbs-down fa-flip-horizontal"></i>
+                                    </div>
+                                </>
+                            ) : null}
+                            {movie.data.my_vote == "down" ? (
+                                <>
+                                    <div className="duration-200 ">
+                                        <i class="fa-regular fa-thumbs-up"></i>
+                                    </div>
+                                    <div className="mt-2 duration-200  text-red-500">
+                                        <i class="fa-regular fa-thumbs-down fa-flip-horizontal"></i>
+                                    </div>
+                                </>
+                            ) : null}
                         </div>
 
                         {/* vote count,up, and down */}
@@ -154,9 +219,7 @@ export default function MoviePage() {
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </>
     );

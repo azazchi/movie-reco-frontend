@@ -13,7 +13,7 @@ export default function Navbar() {
     return (
         <>
             <button
-                className={`flex items-center absolute z-50 text-white ${ishome && "m-6"}`}
+                className={`flex items-center absolute z-50 text-white ${ishome ? "m-6" : "m-3"}`}
                 onClick={() => {
                     handleBack();
                 }}

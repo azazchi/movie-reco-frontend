@@ -17,30 +17,32 @@ async function fetchMovieImage(movie_title) {
 }
 
 async function handleRateUp(movie_id) {
-    axios.post(
-        `/api/movie`,
-        {},
-        {
-            params: {
-                movie: movie_id,
-                vote: "up",
-            },
-        }
-    );
-    //.then(() => window.location.reload());
+    axios
+        .post(
+            `/api/movie`,
+            {},
+            {
+                params: {
+                    movie: movie_id,
+                    vote: "up",
+                },
+            }
+        )
+        .then(() => window.location.reload());
 }
 async function handleRateDown(movie_id) {
-    axios.post(
-        `/api/movie`,
-        {},
-        {
-            params: {
-                movie: movie_id,
-                vote: "down",
-            },
-        }
-    );
-    //.then(() => window.location.reload());
+    axios
+        .post(
+            `/api/movie`,
+            {},
+            {
+                params: {
+                    movie: movie_id,
+                    vote: "down",
+                },
+            }
+        )
+        .then(() => window.location.reload());
 }
 
 export default function MoviePage() {
@@ -92,6 +94,12 @@ export default function MoviePage() {
 
     return (
         <>
+            {data.my_vote != -1 ? (
+                <div className="bg-yellow-900 text-white absolute bottom-0 w-full text-center font-bold">
+                    {" "}
+                    You can't vote anymore, you already voted {data.my_vote}.
+                </div>
+            ) : null}
             <div className="flex gap-x-5 h-full relative  bg-no-repeat bg-cover bg-fixed z-10 px-8 pt-28 pb-4">
                 {/* left side */}
                 <div className="flex flex-col gap-y-4 text-white w-[500px] z-0">
@@ -185,24 +193,24 @@ export default function MoviePage() {
                                 </>
                             ) : null}
                             {movie.data.my_vote == "up" ? (
-                                <>
+                                <div className="flex gap-4">
                                     <div className="duration-200 hove-7xl text-green-500">
                                         <i class="fa-regular fa-thumbs-up"></i>
                                     </div>
                                     <div className="mt-2 duration-200 xl">
                                         <i class="fa-regular fa-thumbs-down fa-flip-horizontal"></i>
                                     </div>
-                                </>
+                                </div>
                             ) : null}
                             {movie.data.my_vote == "down" ? (
-                                <>
+                                <div className="flex gap-4">
                                     <div className="duration-200 ">
                                         <i class="fa-regular fa-thumbs-up"></i>
                                     </div>
                                     <div className="mt-2 duration-200  text-red-500">
                                         <i class="fa-regular fa-thumbs-down fa-flip-horizontal"></i>
                                     </div>
-                                </>
+                                </div>
                             ) : null}
                         </div>
 
